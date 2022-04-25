@@ -1,29 +1,60 @@
-const div = document.createElement('div');
-const h2 = document.createElement('h2');
-const img = document.createElement('img');
-const body = document.querySelector('body');
-let day = document.querySelector('#calendar').value;
+
+let img = document.querySelector('img')
+let h2 = document.querySelector('h2')
+let desc = document.querySelector('p')
+let slideshow = document.querySelector('#slideshow')
+let date = document.querySelector('#date');
+let currentDate;
+
+document.querySelector('button').addEventListener('click', getPic);
 
 
-
-
-document.querySelector('button').addEventListener('click', getDayBefore)
-
-function getPic() {
+function getPic(){
+    day = document.getElementById('calendar').value
     fetch(`https://api.nasa.gov/planetary/apod?api_key=BEIi4NNCAww71WvZ6aqQgAa2eKK6LlhAhmH80wik&date=${day}`)
         .then(res => res.json())
-        .then(data =>{
-            console.log(day)
-            document.querySelector('h2').innerText = data.title;
-            document.querySelector('img').src = data.url;
-            document.querySelector('p').innerText = data.explanation;    
-            console.log(data)  
-            console.log(new Date())  
+        .then(data => {
+            console.log(data)
+            img.src = data.url;
+            h2.innerText = data.title; 
+            desc.innerText = data.explanation; 
+            currentDate = data.date;
+            if(slideshow.checked == true){
+                slideDelay();
+            } 
         })
-        .catch(err => {
+        .catch(err =>{
             console.log(err);
         })
 }
+
+function slideDelay() {
+    setTimeout(startSlideshow, 6000)
+}
+
+
+
+function startSlideshow() {
+    fetch(`https://api.nasa.gov/planetary/apod?api_key=BEIi4NNCAww71WvZ6aqQgAa2eKK6LlhAhmH80wik&date=${getDayBefore()}`)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            img.src = data.url;
+            h2.innerText = data.title; 
+            desc.innerText = data.explanation; 
+            currentDate = data.date; 
+            if(slideshow.checked == true){
+                slideDelay();
+            }
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+}
+
+
+
+
 const months = {
     01: 31,
     02: 28,
@@ -40,36 +71,20 @@ const months = {
 }
 
 function getDayBefore(){
-        let date = day.split('-');
-        console.log(date)
-        if(date[1] == 1 && date[2] == 1){
-            date[0] -= 1
-            date[1] = 12;
-            date[2] = 31;
-            day = `${date[0]}-${date[1]}-${date[2]}`
-            console.log(day)
-            getPic()
-        }else if(date[2] == 1){
-            date[1] -= 1;
-            day = `${date[0]}-${date[1]}-${months[date[1]]}`
-            console.log(day)
-            getPic()
-        }else{
-            day = `${date[0]}-${date[1]}-${(date[2])-1}`
-            console.log(day)
-            getPic()
-        }
-        
-    
+    let dateArr = currentDate.split('-');
+    console.log(date)
+    if(dateArr[1] == 1 && dateArr[2] == 1){
+        dateArr[0] -= 1
+        dateArr[1] = 12;
+        dateArr[2] = 31;
+        return `${dateArr[0]}-${dateArr[1]}-${dateArr[2]}`
+    }else if(dateArr[2] == 1){
+        dateArr[1] -= 1;
+        return `${dateArr[0]}-${dateArr[1]}-${months[dateArr[1]]}`
+    }else{
+        return `${dateArr[0]}-${dateArr[1]}-${(dateArr[2])-1}`
+        }  
 }    
 
 
-
-//check to see which radio button is selected
-
-//if slideshow is selected, make the day tick down per a certain amount of time
-//slideshow doesn't need to have the paragraph, just the title
-//have a time delay between each loop iteration
-//set up css to have some keyframe effect on the movement per iteration
-//if the date is selected, show the calendar option.
-//for the date, show the full description and everything
+// run the function and continue the function if it is checked to loop to another function.
