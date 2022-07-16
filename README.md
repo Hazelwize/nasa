@@ -4,8 +4,6 @@ This projects works with the NASA API to deliver different photos depending on t
 **Live Site Here:** https://hazelwize.github.io/nasa/
 
 ## How It's Made:
-I created this site using the API provided by NASA. I used minimal CSS and HTML and solely focused on the http requests and filtering the data.
-
 **Tech used:** HTML, CSS, JavaScript
 
 This was an opportunity to make fetch requests and filter arrays of objects. There is something about handling data that can be so exciting. I also chose to ignore the built in Date methods in JavaScript and built my own function for going back one day at a time with a time delay. At the click of a button, the value of the input is captured and sent of as a query parameter to NASA. The results returned are then picked through to display the photo, description, and the title of the photo. 
