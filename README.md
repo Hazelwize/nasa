@@ -1,5 +1,3 @@
-# nasa https://hazelwize.github.io/nasa/
-
 # NASA Photo of the Day
 This projects works with the NASA API to deliver different photos depending on the day you choose. There is also a slideshow option.
 
